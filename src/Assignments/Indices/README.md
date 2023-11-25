@@ -42,3 +42,5 @@ Jednak uwzględniając resztę programu w koszta należy jednak wliczyć nowy we
 9 zmiennych tpyu GLushort mającego rozmiar 2 bajty daje nam sumarycznie 18 bajtów
 
 Ilość zaoszczędonych bajtów: 78 bajtów
+
+W programie możnaby zaoszczędzić więcej pamięci poprzez separację pozycji i kolorów. Można również użyć mniejszych typów danych, takich jak GLubyte lub GLbyte, jeśli zakres kolorów jest ograniczony.
