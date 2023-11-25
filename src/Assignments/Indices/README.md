@@ -1,4 +1,5 @@
 Wektor przed zmianą:
+    
     std::vector<GLfloat> vertices = {
         // Roof
         -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
@@ -17,6 +18,7 @@ Wektor przed zmianą:
 54 zmienne typu GLfloat mającego rozmiar 4 bajty dają nam sumarycznie 216 bajtów
 
 Wektor po zmianie:
+    
     std::vector<GLfloat> vertices = {
         // Roof
         -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
