@@ -15,10 +15,6 @@
 
 void SimpleShapeApplication::init()
 {   
-    //Enable the depth buffer algorithm
-    glEnable(GL_DEPTH_TEST);
-    //Enable the elimination of invisible walls
-    glEnable(GL_CULL_FACE);
     // A utility function that reads the shader sources, compiles them and creates the program object
     // As everything in OpenGL we reference program by an integer "handle".
     auto program = xe::utils::create_program(
@@ -148,6 +144,10 @@ void SimpleShapeApplication::frame()
 {
     // Binding the VAO will setup all the required vertex buffers.
     glBindVertexArray(vao_);
+    //Enable the depth buffer algorithm
+    glEnable(GL_DEPTH_TEST);
+    //Enable the elimination of invisible walls
+    glEnable(GL_CULL_FACE);
     glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_SHORT, nullptr);
     glBindVertexArray(0);
 }
