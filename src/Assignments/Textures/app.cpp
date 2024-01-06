@@ -8,12 +8,11 @@
 #include <vector>
 #include <tuple>
 
+#include "Engine/mesh_loader.h"
 #include "Application/utils.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/constants.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#define STB_IMAGE_IMPLEMENTATION  1
-#include "3rdParty/stb/stb_image.h"
 
 void SimpleShapeApplication::init()
 {   
@@ -28,23 +27,6 @@ void SimpleShapeApplication::init()
     {
         std::cerr << "Invalid program" << std::endl;
         exit(-1);
-    }
-
-    stbi_set_flip_vertically_on_load(true);
-    GLint width, height, channels;
-    auto texture_file = std::string(ROOT_DIR) + "/Models/multicolor.png";
-    auto img = stbi_load(texture_file.c_str(), &width, &height, &channels, 0);
-    GLuint texture;
-    if (!img) {
-        std::cout<<"Could not read image from file "<< texture_file;
-    } 
-    else {
-        glGenTextures(1, &texture);
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, img);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     // A vector containing the x,y,z vertex coordinates for the triangle.
@@ -93,17 +75,8 @@ void SimpleShapeApplication::init()
     auto[w, h] = frame_buffer_size();
     camera_->perspective(glm::pi<float>()/4.0, (float)w / h, 0.1f, 100.0f);
     camera_->look_at(glm::vec3(0.0f, 3.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, -1.0f));
-
-    auto pyramid = new xe::Mesh;
-    pyramid->allocate_vertex_buffer(sizeof(GLfloat) * vertices.size(), GL_STATIC_DRAW);
-    pyramid->load_vertices(0, sizeof(GLfloat) * vertices.size(), vertices.data());
-    pyramid->vertex_attrib_pointer(0, 3, GL_FLOAT, 5 * sizeof(GLfloat), 0);
-    pyramid->vertex_attrib_pointer(1, 2, GL_FLOAT, 5 * sizeof(GLfloat), 3 * sizeof(GLfloat));
-    
-    pyramid->allocate_index_buffer(sizeof(GLfloat) * indices.size(), GL_STATIC_DRAW);
-    pyramid->load_indices(0, sizeof(GLfloat) * indices.size(), indices.data());
-
-    pyramid->add_submesh(0, 18, new xe::ColorMaterial({1.0f, 1.0f, 1.0f, 1.0f},texture,1));
+    auto pyramid = xe::load_mesh_from_obj(std::string(ROOT_DIR) + "/Models/blue_marble.obj",
+                                          std::string(ROOT_DIR) + "/Models");
     add_submesh(pyramid);
 
     GLuint uniform_buffer_handle;

@@ -9,7 +9,7 @@
 #include "Application/utils.h"
 
 namespace xe {
-
+    GLuint create_texture(const std::string &name);
     class Material {
     public:
         virtual void bind() = 0;

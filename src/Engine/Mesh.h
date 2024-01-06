@@ -22,7 +22,7 @@ namespace xe {
     class Mesh {
     public:
         Mesh();
-
+        
         void allocate_vertex_buffer(size_t size, GLenum hint);
 
         void allocate_index_buffer(size_t size, GLenum hint);
@@ -43,7 +43,10 @@ namespace xe {
         }
 
         void draw() const;
-    
+        void *map_vertex_buffer();
+        void unmap_vertex_buffer();
+        void *map_index_buffer();
+        void unmap_index_buffer();
     private:
 
         GLuint vao_;
