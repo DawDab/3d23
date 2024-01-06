@@ -3,7 +3,7 @@
 //
 
 #include "glm/gtx/string_cast.hpp"
-
+#include "spdlog/spdlog.h"
 #include "Material.h"
 #define STB_IMAGE_IMPLEMENTATION  1
 #include "3rdParty/stb/stb_image.h"
@@ -15,7 +15,7 @@ namespace xe {
     GLint width, height, channels;
     auto img = stbi_load(name.c_str(), &width, &height, &channels, 0);
     if (!img) {
-        // spdlog::warn("Could not read image from file `{}'", name);
+        spdlog::warn("Could not read image from file `{}'", name);
         return 0;
     }
     GLenum format;
@@ -81,7 +81,7 @@ namespace xe {
 
         uniform_map_Kd_location_ = glGetUniformLocation(shader_, "map_Kd");
         if (uniform_map_Kd_location_ == -1) {
-            std::cout<<"Cannot get uniform map_Kd location";
+            spdlog::warn("Cannot get uniform {} location", "map_Kd");
         }
 
 #if __APPLE__

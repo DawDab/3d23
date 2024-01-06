@@ -10,3 +10,4 @@ add_library(engine
         )
         
 target_link_libraries(engine PUBLIC objreader)
+target_link_libraries(engine PUBLIC spdlog::spdlog)

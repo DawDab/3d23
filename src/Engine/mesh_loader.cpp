@@ -2,10 +2,10 @@
 
 #include <memory>
 
-// #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_DEBUG
-// #include "spdlog/spdlog.h"
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_DEBUG
+#include "spdlog/spdlog.h"
 
-// #include "spdlog/sinks/stdout_sinks.h"
+#include "spdlog/sinks/stdout_sinks.h"
 #include "glm/gtx/string_cast.hpp"
 #include "glm/gtc/type_ptr.hpp"
 
@@ -62,7 +62,7 @@ namespace xe {
 
             auto v_offset = offset;
             for (auto i = 0; i < smesh.vertex_coords.size(); i++, v_offset += stride) {
-                // SPDLOG_DEBUG("vertex[{}] {} ", i, glm::to_string(smesh.vertex_coords[i]));
+                SPDLOG_DEBUG("vertex[{}] {} ", i, glm::to_string(smesh.vertex_coords[i]));
                 std::memcpy(v_ptr + v_offset, glm::value_ptr(smesh.vertex_coords[i]), sizeof(glm::vec3));
             }
         }
@@ -74,7 +74,7 @@ namespace xe {
 
                 auto v_offset = offset;
                 for (auto i = 0; i < smesh.vertex_texcoords[it].size(); i++, v_offset += stride) {
-                    // SPDLOG_DEBUG("texcoord[{}] {} ", i, glm::to_string(smesh.vertex_texcoords[0][i]));
+                    SPDLOG_DEBUG("texcoord[{}] {} ", i, glm::to_string(smesh.vertex_texcoords[0][i]));
                     std::memcpy(v_ptr + v_offset, glm::value_ptr(smesh.vertex_texcoords[0][i]), sizeof(glm::vec2));
                 }
                 offset += 2 * sizeof(GLfloat);
@@ -86,7 +86,7 @@ namespace xe {
 
             auto v_offset = offset;
             for (auto i = 0; i < smesh.vertex_normals.size(); i++, v_offset += stride) {
-                // SPDLOG_DEBUG("normal[{}] {} ", i, glm::to_string(smesh.vertex_normals[i]));
+                SPDLOG_DEBUG("normal[{}] {} ", i, glm::to_string(smesh.vertex_normals[i]));
                 std::memcpy(v_ptr + v_offset, glm::value_ptr(smesh.vertex_normals[i]), sizeof(glm::vec3));
             }
 
@@ -103,7 +103,7 @@ namespace xe {
 
         for (int i = 0; i < smesh.submeshes.size(); i++) {
             auto sm = smesh.submeshes[i];
-            // SPDLOG_DEBUG("Adding submesh {:4d} {:4d} {:4d}", i, sm.start, sm.end);
+            SPDLOG_DEBUG("Adding submesh {:4d} {:4d} {:4d}", i, sm.start, sm.end);
             Material* material = new xe::ColorMaterial(glm::vec4{1.0, 1.0, 1.0, 1.0});
             if (sm.mat_idx >= 0) {
                 auto mat = smesh.materials[sm.mat_idx];
@@ -129,11 +129,11 @@ namespace xe {
             for (int i = 0; i < 3; i++)
                 color[i] = mat.diffuse[i];
             color[3] = 1.0;
-            // SPDLOG_DEBUG("Adding ColorMaterial {}", glm::to_string(color));
+            SPDLOG_DEBUG("Adding ColorMaterial {}", glm::to_string(color));
             auto material = new xe::ColorMaterial(color);
             if (!mat.diffuse_texname.empty()) {
                 auto texture = xe::create_texture(mtl_dir + "/" + mat.diffuse_texname);
-                // SPDLOG_DEBUG("Adding Texture {} {:1d}", mat.diffuse_texname, texture);
+                SPDLOG_DEBUG("Adding Texture {} {:1d}", mat.diffuse_texname, texture);
                 if (texture > 0) {
                     material->setTexture(texture);
                 }
