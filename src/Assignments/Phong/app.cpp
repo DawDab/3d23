@@ -45,7 +45,7 @@ void SimpleShapeApplication::init()
 
     glGenBuffers(1, &u_pvm_buffer_);
     glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer_);      
-    glBufferData(GL_UNIFORM_BUFFER, 2* sizeof(glm::mat4) + sizeof(glm::mat3), nullptr, GL_STATIC_DRAW);   
+    glBufferData(GL_UNIFORM_BUFFER,  2 * sizeof(glm::mat4) + 2 * sizeof(glm::vec4) + sizeof(glm::vec3), nullptr, GL_STATIC_DRAW);   
     glBindBufferBase(GL_UNIFORM_BUFFER, 1, u_pvm_buffer_);                
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
@@ -104,9 +104,11 @@ void SimpleShapeApplication::frame()
     glBindBuffer(GL_UNIFORM_BUFFER, u_pvm_buffer_);
     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(PVM), &PVM[0]);
     glBufferSubData(GL_UNIFORM_BUFFER, sizeof(PVM), sizeof(VM), &VM);
-    glBufferSubData(GL_UNIFORM_BUFFER, 2*sizeof(glm::mat4), sizeof(N[0]), &N[0]);
-    glBufferSubData(GL_UNIFORM_BUFFER, 2*sizeof(glm::mat4) + sizeof(N[0]), sizeof(N[1]), &N[1]);
-    glBufferSubData(GL_UNIFORM_BUFFER, 2*sizeof(glm::mat4) + sizeof(N[0]) + sizeof(N[1]), sizeof(N[2]), &N[2]);
+    glBufferSubData(GL_UNIFORM_BUFFER, 2*sizeof(glm::mat4), sizeof(glm::vec3), &N[0]);
+    glBufferSubData(GL_UNIFORM_BUFFER, 2*sizeof(glm::mat4) + sizeof(glm::vec3), sizeof(float), nullptr);
+    glBufferSubData(GL_UNIFORM_BUFFER, 2*sizeof(glm::mat4) + sizeof(glm::vec4), sizeof(glm::vec3), &N[1]);
+    glBufferSubData(GL_UNIFORM_BUFFER, 2*sizeof(glm::mat4) + sizeof(glm::vec4) + sizeof(glm::vec3), sizeof(float), nullptr);
+    glBufferSubData(GL_UNIFORM_BUFFER, 2*sizeof(glm::mat4) + sizeof(glm::vec4) + sizeof(glm::vec4), sizeof(glm::vec3), &N[2]);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
     GLuint n_p_lights = p_lights_.size();
